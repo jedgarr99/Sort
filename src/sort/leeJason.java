@@ -70,7 +70,6 @@ public class leeJason {
             b.add(a);
             line=br.readLine();
         }
-        System.out.println(b.toString());
 
     }
 }
