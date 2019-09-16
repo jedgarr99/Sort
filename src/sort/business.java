@@ -183,7 +183,7 @@ public class business {
 
     @Override
     public String toString() {
-        return "business{" + "business_id=" + business_id + ", name=" + name + ", address1=" + address1 + ", city=" + city + ", state=" + state + ", postal_code=" + postal_code + ", latitude=" + latitude + ", longitude=" + longitude + ", stars=" + stars + ", review_count=" + review_count + ", is_open=" + is_open + ", attributes=" + attributes + ", categories=" + categories + ", hours=" + hours + '}';
+        return "business{" + "business_id=" + business_id + ", name=" + name + ", address1=" + address1 + ", city=" + city + ", state=" + state + ", postal_code=" + postal_code + ", latitude=" + latitude + ", longitude=" + longitude + ", stars=" + stars + ", review_count=" + review_count + ", is_open=" + is_open + ", attributes=" + attributes.toString() + ", categories=" + categories + ", hours=" + hours.toString() + '}';
     }
     public int compareTo(business otro){
         return this.business_id.compareTo(otro.getBusiness_id());
