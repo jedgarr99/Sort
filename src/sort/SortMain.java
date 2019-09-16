@@ -22,7 +22,6 @@ public class SortMain {
     System.out.println(Arrays.toString(a));
     b.bubbleSort(a);
     System.out.println(Arrays.toString(a));
-    System.out.println(less("3", "2"));
     }
     
 }
