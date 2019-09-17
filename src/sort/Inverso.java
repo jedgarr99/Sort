@@ -30,7 +30,8 @@ public class Inverso {
         business[] bArray;
 
         businesses = s.leeArchivo("business10k.json");
-        Collections.reverse(businesses);
+        Collections.sort(businesses);
+        
 
         for (int i = 0; i < 5; i++) {
             
@@ -100,5 +101,6 @@ public class Inverso {
             System.out.println("");
         }
     
+
 }
 }

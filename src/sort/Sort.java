@@ -66,8 +66,9 @@ public class Sort<T extends Comparable<T>> {
         for (int i = 0; i < arr.length - 1; i++) {
             rec = i;
             pos = i + 1;
+            cont++;
             while (rec >= 0 && arr[rec].compareTo(arr[pos]) > 0) {
-                cont++;
+                
                 aux = arr[rec];
                 arr[rec] = arr[pos];
                 arr[pos] = aux;
