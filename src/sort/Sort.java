@@ -4,20 +4,33 @@
  * and open the template in the editor.
  */
 package sort;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
 /**
  *
  * @author Edgar
  */
 public class Sort<T extends Comparable<T>> {
+    public int quickCont=0;
 
     //SELECTION-SORT:
-    public void selectionSort(T[] arr) {
-        int min;
+    public int selectionSort(T[] arr) {
+        int min,cont;
+        cont=0;
         T aux;
         for (int i = 0; i < arr.length; i++) {
             min = i;
             for (int j = i + 1; j < arr.length; j++) {
+                cont++;
                 if (arr[j].compareTo(arr[min]) < 0) {
                     min = j;
                 }
@@ -26,6 +39,7 @@ public class Sort<T extends Comparable<T>> {
             arr[i] = arr[min];
             arr[min] = aux;
         }
+        return cont;
     }
 
     public void selectionSort1(T[] arr) {
@@ -45,13 +59,15 @@ public class Sort<T extends Comparable<T>> {
     }
 
     //INSERTION-SORT:
-    public void insertionSort(T[] arr) {
-        int rec, pos;
+    public int insertionSort(T[] arr) {
+        int rec, pos,cont;
         T aux;
+        cont=0;
         for (int i = 0; i < arr.length - 1; i++) {
             rec = i;
             pos = i + 1;
             while (rec >= 0 && arr[rec].compareTo(arr[pos]) > 0) {
+                cont++;
                 aux = arr[rec];
                 arr[rec] = arr[pos];
                 arr[pos] = aux;
@@ -59,6 +75,7 @@ public class Sort<T extends Comparable<T>> {
                 pos--;
             }
         }
+        return cont;
     }
 
     public T[] insertionSort1(T[] array) {
@@ -93,9 +110,11 @@ public class Sort<T extends Comparable<T>> {
 
     }
 
-    public void bubbleSort(T[] arr) {
+    public int bubbleSort(T[] arr) {
+        int cont=0;
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr.length - i - 1; j++) {
+                cont++;
                 if (arr[j + 1].compareTo(arr[j]) < 0) {
                     T aux = arr[j + 1];
                     arr[j + 1] = arr[j];
@@ -103,6 +122,7 @@ public class Sort<T extends Comparable<T>> {
                 }
             }
         }
+        return cont;
     }
 
     //DIEGO'S-BUBBLE-SORT:
@@ -152,6 +172,88 @@ public class Sort<T extends Comparable<T>> {
     //QUICK-SORT:
     /* Complejidad: O(n^2)
     ** Nota: Para que un hacker no abuse de mi método hay que agarrar un número aleatorio. */
+    public <T extends Comparable<T>> T[] sort(T[] array) {
+        doSort(array, 0, array.length - 1);
+   
+        return array;
+    }
+
+
+    /**
+     * The sorting process
+     *
+     * @param left  The first index of an array
+     * @param right The last index of an array
+     * @param array The array to be sorted
+     **/
+
+    private  <T extends Comparable<T>> void doSort(T[] array, int left, int right) {
+        if (left < right) {
+            int pivot = randomPartition(array, left, right);
+            doSort(array, left, pivot - 1);
+            doSort(array, pivot, right);
+        }
+    }
+
+    /**
+     * Ramdomize the array to avoid the basically ordered sequences
+     * 
+     * @param array The array to be sorted
+     * @param left  The first index of an array
+     * @param right The last index of an array
+     * @return the partition index of the array
+     */
+
+    private <T extends Comparable<T>> int randomPartition(T[] array, int left, int right) {
+        int randomIndex = left + (int)(Math.random()*(right - left + 1));
+        swap(array, randomIndex, right);
+        return partition(array, left, right);
+    }
+
+    /**
+     * This method finds the partition index for an array
+     *
+     * @param array The array to be sorted
+     * @param left  The first index of an array
+     * @param right The last index of an array
+     *              Finds the partition index of an array
+     **/
+
+    private  <T extends Comparable<T>> int partition(T[] array, int left, int right) {
+        int mid = (left + right) / 2;
+        T pivot = array[mid];
+
+        while (left <= right) {
+            while (less(array[left], pivot)) {
+                ++left;
+            }
+            while (less(pivot, array[right])) {
+                --right;
+            }
+            if (left <= right) {
+                swap(array, left, right);
+                ++left;
+                --right;
+            }
+        }
+        return left;
+    }
+    public int getQuickCont(){
+        return this.quickCont;
+    }
+    public void setQuickCont(int n){
+        this.quickCont=n;
+    }
+    public <T extends Comparable<T>> boolean less(T v, T w) {
+        quickCont++;
+        return v.compareTo(w) < 0;
+    }
+    static <T> boolean swap(T[] array, int idx, int idy) {
+        T swap = array[idx];
+        array[idx] = array[idy];
+        array[idy] = swap;
+        return true;
+    }
     public void quickSort(T[] arr) {
         quickSort(arr, 0, arr.length - 1);
     }
@@ -191,7 +293,66 @@ public class Sort<T extends Comparable<T>> {
     }
 
     //RECURSIVE MERGE_SORT:
-    public void mergeSort(T[] array) {
+    public <T extends Comparable<T>> T[] mergeSort(T[] unsorted) {
+        T[] tmp = (T[]) new Comparable[unsorted.length];
+        doSort(unsorted, tmp, 0, unsorted.length - 1);
+        return unsorted;
+    }
+
+    /**
+     * @param arr   The array to be sorted
+     * @param temp  The copy of the actual array
+     * @param left  The first index of the array
+     * @param right The last index of the array
+     *              Recursively sorts the array in increasing order
+     **/
+    private  <T extends Comparable<T>> void doSort(T[] arr, T[] temp, int left, int right) {
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+            doSort(arr, temp, left, mid);
+            doSort(arr, temp, mid + 1, right);
+            merge(arr, temp, left, mid, right);
+        }
+
+    }
+
+    /**
+     * This method implements the merge step of the merge sort
+     *
+     * @param arr   The array to be sorted
+     * @param temp  The copy of the actual array
+     * @param left  The first index of the array
+     * @param mid   The middle index of the array
+     * @param right The last index of the array
+     *              merges two parts of an array in increasing order
+     **/
+
+    private  <T extends Comparable<T>> void merge(T[] arr, T[] temp, int left, int mid, int right) {
+        System.arraycopy(arr, left, temp, left, right - left + 1);
+
+
+        int i = left;
+        int j = mid + 1;
+        int k = left;
+
+        while (i <= mid && j <= right) {
+            quickCont++;
+            if (temp[i].compareTo(temp[j]) <= 0) {
+                arr[k++] = temp[i++];
+            } else {
+                arr[k++] = temp[j++];
+            }
+        }
+
+        while (i <= mid) {
+            arr[k++] = temp[i++];
+        }
+
+        while (j <= right) {
+            arr[k++] = temp[j++];
+        }
+    }
+    public void mergeSort2(T[] array) {
         if (array == null || array.length <= 1) 
             return;
         int mid = array.length / 2;
@@ -229,8 +390,9 @@ public class Sort<T extends Comparable<T>> {
     /*Merge subarrays in bottom up manner. First merge subarrays of size 1 to create sorted  
       subarrays of size 2, then merge subarrays of size 2 to create sorted subarrays of size 4, 
       and so on. */
-    public void iterativeMergeSort(T arr[]) {
-        int n = arr.length;
+    public int iterativeMergeSort(T arr[]) {
+        int n = arr.length,cont;
+        cont=0;
         // For current size of subarrays to be merged curr_size varies from  1 to n/2 
         for (int curr_size = 1; curr_size <= n - 1; curr_size = 2 * curr_size) {
 
@@ -243,19 +405,21 @@ public class Sort<T extends Comparable<T>> {
                 int right_end = Math.min(left_start + 2 * curr_size - 1, n - 1);
 
                 // Merge Subarrays arr[left_start...mid] & arr[mid+1...right_end]:
-                merge(arr, left_start, mid, right_end);
+                cont+=merge(arr, left_start, mid, right_end);
                 //mergeDiegoIndices(arr, left_start, right_end);
 
             }
         }
+        return cont;
     }
 
     //MERGE-FUNCTION:
     /* Function to merge the two haves arr[l..m] and arr[m+1..r] of array arr[] */
-    public void merge(T arr[], int l, int m, int r) {
-        int i, j, k;
+    public int merge(T arr[], int l, int m, int r) {
+        int i, j, k,cont;
         int n1 = m - l + 1;
         int n2 = r - m;
+        cont=0;
 
         /* create temp arrays */
         T L[] = (T[]) new Comparable[n1];
@@ -274,6 +438,7 @@ public class Sort<T extends Comparable<T>> {
         j = 0;
         k = l;
         while (i < n1 && j < n2) {
+            cont++;
             if (L[i].compareTo(R[j]) <= 0) {
                 arr[k++] = L[i++];
             } else {
@@ -288,6 +453,7 @@ public class Sort<T extends Comparable<T>> {
         while (j < n2) {
             arr[k++] = R[j++];
         }
+        return cont;
     }
 
     public void mergeIndices(T[] arr, int low, int high) {
@@ -357,6 +523,78 @@ public class Sort<T extends Comparable<T>> {
         while (j < high + 1) {
             arr[i++] = arr[j++];
         }
+    }
+    
+    // LeeArchivosJasonBusiness
+    public ArrayList<business> leeArchivo(String nombreArchivo) throws FileNotFoundException, ParseException, IOException{
+        ArrayList<String> atributes, ours;
+        ArrayList<business> businesses = new ArrayList<>();
+        String line=null;
+        
+        //"business10k.json"
+        FileReader f = new FileReader(nombreArchivo);
+        BufferedReader br = new BufferedReader(f);
+        
+        line=br.readLine();
+        while ( line != null) {
+            Object obj = new JSONParser().parse(line);
+            JSONObject jo = (JSONObject) obj;
+
+            String business_id = (String) jo.get("business_id");
+            String name = (String) jo.get("name");
+            String address1 = (String) jo.get("address");
+            String city = (String) jo.get("city");
+            String state = (String) jo.get("state");
+            String postal_code = (String) jo.get("postal_code");
+            Double latitude = (Double) jo.get("latitude");
+            Double longitude = (Double) jo.get("longitude");
+            Double stars = (Double) jo.get("stars");
+            Long review_count = (Long) jo.get("review_count");
+            Long is_open = (Long) jo.get("is_open");
+            atributes = new ArrayList<>();
+
+            Map attributes = ((Map) jo.get("attributes"));
+
+            if (attributes != null) {
+                Iterator<Map.Entry> itr1 = attributes.entrySet().iterator();
+                while (itr1.hasNext()) {
+                    Map.Entry pair = itr1.next();
+                    atributes.add(pair.getKey() + " : " + pair.getValue()); 
+                }
+            }
+            String categories = (String) jo.get("categories");
+            ours = new ArrayList<>();
+            Map hours = ((Map) jo.get("hours"));
+
+            if (hours != null) {
+                Iterator<Map.Entry> itr2 = hours.entrySet().iterator();
+                while (itr2.hasNext()) {
+                    Map.Entry pair = itr2.next();
+                    ours.add(pair.getKey() + " : " + pair.getValue()); 
+                }
+            }
+            business a = new business(business_id, name, address1, city, state, postal_code, latitude, longitude, stars, review_count, is_open,
+                    atributes, categories, ours);
+            businesses.add(a);
+            line=br.readLine();
+        }
+       return businesses; 
+    }
+    public double average(int[] arr){
+        double res=0;
+        for(int i=0; i<arr.length;i++){
+            res+=arr[i];
+        }
+        res=res/arr.length;
+        return res;
+    }
+    public double average(long[] arr){
+        double res=0;
+        for(int i=0; i<arr.length;i++){
+            res+=arr[i];
+        }
+        res=res/arr.length;
+        return res;
     }
 
 }

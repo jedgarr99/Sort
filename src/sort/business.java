@@ -7,12 +7,15 @@ package sort;
 
 import java.util.ArrayList;
 import java.util.Objects;
+ 
+import java.util.Comparator;
 
 /**
  *
  * @author elisaortizloyola
+ * @param <T>
  */
-public class business {
+public class business implements Comparable{
     private String business_id;
     private String name; 
     private String address1; 
@@ -185,9 +188,18 @@ public class business {
     public String toString() {
         return "business{" + "business_id=" + business_id + ", name=" + name + ", address1=" + address1 + ", city=" + city + ", state=" + state + ", postal_code=" + postal_code + ", latitude=" + latitude + ", longitude=" + longitude + ", stars=" + stars + ", review_count=" + review_count + ", is_open=" + is_open + ", attributes=" + attributes.toString() + ", categories=" + categories + ", hours=" + hours.toString() + '}';
     }
-    public int compareTo(business otro){
-        return this.business_id.compareTo(otro.getBusiness_id());
+
+
+    @Override
+    public int compareTo(Object o) {
+        if(o.getClass().getSimpleName().equals("business")){
+            return this.business_id.compareTo(((business)o).getBusiness_id());
+        }
+        else
+            return -10;    
     }
+
+    
     
     
 }

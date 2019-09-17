@@ -7,18 +7,14 @@ package sort;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import org.json.simple.parser.ParseException;
 
 /**
  *
- * @author Edgar
+ * @author elisaortizloyola
  */
-public class SortMain {
-
-    /**
-     * @param args the command line arguments
-     */
+public class Inverso {
     public static void main(String[] args) throws ParseException, IOException {
 
         /*
@@ -34,10 +30,12 @@ public class SortMain {
         business[] bArray;
 
         businesses = s.leeArchivo("business10k.json");
+        Collections.reverse(businesses);
 
         for (int i = 0; i < 5; i++) {
+            
 
-            bArray = businesses.subList(0, n[i]).toArray(new business[businesses.size()]);
+            bArray = businesses.subList(0, n[i]).toArray(new business[10]);
             System.out.println("Array Length " + bArray.length);
             System.out.println("");
 
@@ -101,7 +99,6 @@ public class SortMain {
 
             System.out.println("");
         }
-
-    }
-
+    
+}
 }
