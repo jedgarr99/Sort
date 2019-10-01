@@ -14,7 +14,7 @@ import org.json.simple.parser.ParseException;
  *
  * @author Edgar
  */
-public class SortMain {
+public class Ordenado {
 
     /**
      * @param args the command line arguments

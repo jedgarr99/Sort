@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package sort;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,20 +13,23 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
+
 /**
  *
  * @author Edgar
+ * @param <T>
  */
 public class Sort<T extends Comparable<T>> {
-    public int quickCont=0;
+
+    public int quickCont = 0;
 
     //SELECTION-SORT:
     public int selectionSort(T[] arr) {
-        int min,cont;
-        cont=0;
+        int min, cont;
+        cont = 0;
         T aux;
         for (int i = 0; i < arr.length; i++) {
             min = i;
@@ -60,15 +64,15 @@ public class Sort<T extends Comparable<T>> {
 
     //INSERTION-SORT:
     public int insertionSort(T[] arr) {
-        int rec, pos,cont;
+        int rec, pos, cont;
         T aux;
-        cont=0;
+        cont = 0;
         for (int i = 0; i < arr.length - 1; i++) {
             rec = i;
             pos = i + 1;
             cont++;
             while (rec >= 0 && arr[rec].compareTo(arr[pos]) > 0) {
-                
+
                 aux = arr[rec];
                 arr[rec] = arr[pos];
                 arr[pos] = aux;
@@ -112,7 +116,7 @@ public class Sort<T extends Comparable<T>> {
     }
 
     public int bubbleSort(T[] arr) {
-        int cont=0;
+        int cont = 0;
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr.length - i - 1; j++) {
                 cont++;
@@ -175,20 +179,19 @@ public class Sort<T extends Comparable<T>> {
     ** Nota: Para que un hacker no abuse de mi método hay que agarrar un número aleatorio. */
     public <T extends Comparable<T>> T[] sort(T[] array) {
         doSort(array, 0, array.length - 1);
-   
+
         return array;
     }
-
 
     /**
      * The sorting process
      *
-     * @param left  The first index of an array
+     * @param left The first index of an array
      * @param right The last index of an array
      * @param array The array to be sorted
-     **/
-
-    private  <T extends Comparable<T>> void doSort(T[] array, int left, int right) {
+     *
+     */
+    private <T extends Comparable<T>> void doSort(T[] array, int left, int right) {
         if (left < right) {
             int pivot = randomPartition(array, left, right);
             doSort(array, left, pivot - 1);
@@ -198,15 +201,14 @@ public class Sort<T extends Comparable<T>> {
 
     /**
      * Ramdomize the array to avoid the basically ordered sequences
-     * 
+     *
      * @param array The array to be sorted
-     * @param left  The first index of an array
+     * @param left The first index of an array
      * @param right The last index of an array
      * @return the partition index of the array
      */
-
     private <T extends Comparable<T>> int randomPartition(T[] array, int left, int right) {
-        int randomIndex = left + (int)(Math.random()*(right - left + 1));
+        int randomIndex = left + (int) (Math.random() * (right - left + 1));
         swap(array, randomIndex, right);
         return partition(array, left, right);
     }
@@ -215,12 +217,12 @@ public class Sort<T extends Comparable<T>> {
      * This method finds the partition index for an array
      *
      * @param array The array to be sorted
-     * @param left  The first index of an array
-     * @param right The last index of an array
-     *              Finds the partition index of an array
-     **/
-
-    private  <T extends Comparable<T>> int partition(T[] array, int left, int right) {
+     * @param left The first index of an array
+     * @param right The last index of an array Finds the partition index of an
+     * array
+     *
+     */
+    private <T extends Comparable<T>> int partition(T[] array, int left, int right) {
         int mid = (left + right) / 2;
         T pivot = array[mid];
 
@@ -239,22 +241,27 @@ public class Sort<T extends Comparable<T>> {
         }
         return left;
     }
-    public int getQuickCont(){
+
+    public int getQuickCont() {
         return this.quickCont;
     }
-    public void setQuickCont(int n){
-        this.quickCont=n;
+
+    public void setQuickCont(int n) {
+        this.quickCont = n;
     }
+
     public <T extends Comparable<T>> boolean less(T v, T w) {
         quickCont++;
         return v.compareTo(w) < 0;
     }
+
     static <T> boolean swap(T[] array, int idx, int idy) {
         T swap = array[idx];
         array[idx] = array[idy];
         array[idy] = swap;
         return true;
     }
+
     public void quickSort(T[] arr) {
         quickSort(arr, 0, arr.length - 1);
     }
@@ -301,13 +308,14 @@ public class Sort<T extends Comparable<T>> {
     }
 
     /**
-     * @param arr   The array to be sorted
-     * @param temp  The copy of the actual array
-     * @param left  The first index of the array
-     * @param right The last index of the array
-     *              Recursively sorts the array in increasing order
-     **/
-    private  <T extends Comparable<T>> void doSort(T[] arr, T[] temp, int left, int right) {
+     * @param arr The array to be sorted
+     * @param temp The copy of the actual array
+     * @param left The first index of the array
+     * @param right The last index of the array Recursively sorts the array in
+     * increasing order
+     *
+     */
+    private <T extends Comparable<T>> void doSort(T[] arr, T[] temp, int left, int right) {
         if (left < right) {
             int mid = left + (right - left) / 2;
             doSort(arr, temp, left, mid);
@@ -320,17 +328,16 @@ public class Sort<T extends Comparable<T>> {
     /**
      * This method implements the merge step of the merge sort
      *
-     * @param arr   The array to be sorted
-     * @param temp  The copy of the actual array
-     * @param left  The first index of the array
-     * @param mid   The middle index of the array
-     * @param right The last index of the array
-     *              merges two parts of an array in increasing order
-     **/
-
-    private  <T extends Comparable<T>> void merge(T[] arr, T[] temp, int left, int mid, int right) {
+     * @param arr The array to be sorted
+     * @param temp The copy of the actual array
+     * @param left The first index of the array
+     * @param mid The middle index of the array
+     * @param right The last index of the array merges two parts of an array in
+     * increasing order
+     *
+     */
+    private <T extends Comparable<T>> void merge(T[] arr, T[] temp, int left, int mid, int right) {
         System.arraycopy(arr, left, temp, left, right - left + 1);
-
 
         int i = left;
         int j = mid + 1;
@@ -353,18 +360,22 @@ public class Sort<T extends Comparable<T>> {
             arr[k++] = temp[j++];
         }
     }
+
     public void mergeSort2(T[] array) {
-        if (array == null || array.length <= 1) 
+        if (array == null || array.length <= 1) {
             return;
+        }
         int mid = array.length / 2;
         // Split left part 
         T[] left = (T[]) new Comparable[mid];
-        for (int i = 0; i < mid; i++) 
+        for (int i = 0; i < mid; i++) {
             left[i] = array[i];
+        }
         // Split right part 
         T[] right = (T[]) new Comparable[array.length - mid];
-        for (int i = mid; i < array.length; i++) 
+        for (int i = mid; i < array.length; i++) {
             right[i - mid] = array[i];
+        }
         mergeSort(left);
         mergeSort(right);
         int i = 0, j = 0, k = 0;
@@ -392,8 +403,8 @@ public class Sort<T extends Comparable<T>> {
       subarrays of size 2, then merge subarrays of size 2 to create sorted subarrays of size 4, 
       and so on. */
     public int iterativeMergeSort(T arr[]) {
-        int n = arr.length,cont;
-        cont=0;
+        int n = arr.length, cont;
+        cont = 0;
         // For current size of subarrays to be merged curr_size varies from  1 to n/2 
         for (int curr_size = 1; curr_size <= n - 1; curr_size = 2 * curr_size) {
 
@@ -406,7 +417,7 @@ public class Sort<T extends Comparable<T>> {
                 int right_end = Math.min(left_start + 2 * curr_size - 1, n - 1);
 
                 // Merge Subarrays arr[left_start...mid] & arr[mid+1...right_end]:
-                cont+=merge(arr, left_start, mid, right_end);
+                cont += merge(arr, left_start, mid, right_end);
                 //mergeDiegoIndices(arr, left_start, right_end);
 
             }
@@ -417,10 +428,10 @@ public class Sort<T extends Comparable<T>> {
     //MERGE-FUNCTION:
     /* Function to merge the two haves arr[l..m] and arr[m+1..r] of array arr[] */
     public int merge(T arr[], int l, int m, int r) {
-        int i, j, k,cont;
+        int i, j, k, cont;
         int n1 = m - l + 1;
         int n2 = r - m;
-        cont=0;
+        cont = 0;
 
         /* create temp arrays */
         T L[] = (T[]) new Comparable[n1];
@@ -525,19 +536,19 @@ public class Sort<T extends Comparable<T>> {
             arr[i++] = arr[j++];
         }
     }
-    
+
     // LeeArchivosJasonBusiness
-    public ArrayList<business> leeArchivo(String nombreArchivo) throws FileNotFoundException, ParseException, IOException{
+    public ArrayList<business> leeArchivo(String nombreArchivo) throws FileNotFoundException, ParseException, IOException {
         ArrayList<String> atributes, ours;
         ArrayList<business> businesses = new ArrayList<>();
-        String line=null;
-        
+        String line = null;
+
         //"business10k.json"
         FileReader f = new FileReader(nombreArchivo);
         BufferedReader br = new BufferedReader(f);
-        
-        line=br.readLine();
-        while ( line != null) {
+
+        line = br.readLine();
+        while (line != null) {
             Object obj = new JSONParser().parse(line);
             JSONObject jo = (JSONObject) obj;
 
@@ -560,7 +571,7 @@ public class Sort<T extends Comparable<T>> {
                 Iterator<Map.Entry> itr1 = attributes.entrySet().iterator();
                 while (itr1.hasNext()) {
                     Map.Entry pair = itr1.next();
-                    atributes.add(pair.getKey() + " : " + pair.getValue()); 
+                    atributes.add(pair.getKey() + " : " + pair.getValue());
                 }
             }
             String categories = (String) jo.get("categories");
@@ -571,30 +582,32 @@ public class Sort<T extends Comparable<T>> {
                 Iterator<Map.Entry> itr2 = hours.entrySet().iterator();
                 while (itr2.hasNext()) {
                     Map.Entry pair = itr2.next();
-                    ours.add(pair.getKey() + " : " + pair.getValue()); 
+                    ours.add(pair.getKey() + " : " + pair.getValue());
                 }
             }
             business a = new business(business_id, name, address1, city, state, postal_code, latitude, longitude, stars, review_count, is_open,
                     atributes, categories, ours);
             businesses.add(a);
-            line=br.readLine();
+            line = br.readLine();
         }
-       return businesses; 
+        return businesses;
     }
-    public double average(int[] arr){
-        double res=0;
-        for(int i=0; i<arr.length;i++){
-            res+=arr[i];
+
+    public double average(int[] arr) {
+        double res = 0;
+        for (int i = 0; i < arr.length; i++) {
+            res += arr[i];
         }
-        res=res/arr.length;
+        res = res / arr.length;
         return res;
     }
-    public double average(long[] arr){
-        double res=0;
-        for(int i=0; i<arr.length;i++){
-            res+=arr[i];
+
+    public double average(long[] arr) {
+        double res = 0;
+        for (int i = 0; i < arr.length; i++) {
+            res += arr[i];
         }
-        res=res/arr.length;
+        res = res / arr.length;
         return res;
     }
 
